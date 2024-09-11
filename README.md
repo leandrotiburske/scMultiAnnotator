@@ -1,0 +1,1 @@
+# sctype_nextflow
