@@ -1,3 +1,4 @@
 work/*
 prototype*
 .nextflow*
+__pycache__

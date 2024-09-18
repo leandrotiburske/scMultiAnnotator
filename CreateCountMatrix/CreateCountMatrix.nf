@@ -16,7 +16,7 @@ process CreateCountMatrix {
     // Input: Directory with FASTQ files and a reference transcriptome
     input:
     path fastq
-    path reference_transcriptome
+    val reference_transcriptome
 
     // Consider all files as output
     output:
@@ -25,7 +25,7 @@ process CreateCountMatrix {
     script:
 
     // If no reference transcriptome is provided, use the human transcriptome
-    if (params.reference_transcriptome == null) {
+    if (reference_transcriptome == "none") {
         """
         echo "Downloading human reference transcriptome..."
         
@@ -33,7 +33,7 @@ process CreateCountMatrix {
         tar -zxvf refdata-gex-GRCh38-2020-A.tar.gz
 
         cellranger count --id=$params.experiment_name \
-            --create-bam $params.create_bam \
+            --create-bam false \
             --fastqs=$fastq \
             --transcriptome=refdata-gex-GRCh38-2020-A
     """
@@ -42,7 +42,7 @@ process CreateCountMatrix {
     } else {
         """
         cellranger count --id=$params.experiment_name \
-            --create-bam $params.create_bam \
+            --create-bam false \
             --fastqs=$fastq \
             --transcriptome=$reference_transcriptome
         """

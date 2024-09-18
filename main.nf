@@ -2,12 +2,15 @@
 
 // Define workflow parameters
 
-params.teste_pbmc = "/home/leandro/Downloads/pbmc3k_filtered_gene_bc_matrices/filtered_gene_bc_matrices/hg19/"
-
+params.teste_pbmc = "/home/leandro/Downloads/filtered_gene_bc_matrices/hg19/"
 params.fastq = null
-params.reference_transcriptome = null
+params.reference_transcriptome = "none"
+params.organism = "human"
 params.experiment_name = "cellranger_output"
-params.create_bam = false
+params.resolution = 0.8
+params.min_genes = 200
+params.min_cells = 3
+params.clustering = "leiden"
 params.verbose = true
 params.help = null
 

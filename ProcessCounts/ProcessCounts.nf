@@ -23,7 +23,13 @@ process ProcessCounts {
 
     script:
     """
-    python3.10 $projectDir/ProcessCounts/scanpy,py
+    python3.9 $projectDir/ProcessCounts/scanpy_processing.py \
+        --counts /home/leandro/Downloads/filtered_gene_bc_matrices/hg19 \
+        --resolution $params.resolution \
+        --min_genes $params.min_genes \
+        --min_cells $params.min_cells \
+        --organism $params.organism \
+        --clustering $params.clustering
     """
 
 }
