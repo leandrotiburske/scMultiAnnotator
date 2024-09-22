@@ -12,7 +12,8 @@ RUN pip install pandas==2.0.0 \
                 igraph \
                 scikit-learn \
                 leidenalg \
-                argparse
+                argparse \
+                openpyxl
 
 RUN pip install --user scikit-misc
  

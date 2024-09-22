@@ -1,0 +1,17 @@
+name: scverseenv
+channels:
+  - conda-forge
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=11.7
+  - jax
+  - jaxlib
+  - scvi-tools
+  - pandas
+  - numpy
+  - scanpy
