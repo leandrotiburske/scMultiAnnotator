@@ -1,4 +1,4 @@
-process ScanpySctype {
+process ProcessCounts {
 
     // Set verbosity
 
@@ -11,7 +11,7 @@ process ScanpySctype {
     }
 
     // Name output directory
-    publishDir "scanpySctype", mode: 'symlink'
+    publishDir "processCounts", mode: 'symlink'
 
     // Input: Directory with FASTQ files and a reference transcriptome
     input:
@@ -21,12 +21,11 @@ process ScanpySctype {
     output:
     path "figures"
     path "clusters_markers.tsv"
-    path "sctype_scores.tsv"
     path "adata.h5ad", emit: dataset
 
     script:
     """
-    python3.9 $projectDir/ScanpySctype/scanpy_processing.py \
+    scanpy_processing.py \
         --counts /home/leandro/Downloads/filtered_gene_bc_matrices/hg19 \
         --resolution $params.resolution \
         --min_genes $params.min_genes \

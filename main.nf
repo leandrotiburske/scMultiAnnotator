@@ -6,7 +6,8 @@ params.teste_pbmc = "/home/leandro/Downloads/filtered_gene_bc_matrices/hg19/"
 params.fastq = null
 params.reference_transcriptome = "none"
 params.organism = "human"
-params.tissue
+params.tissue = null
+params.markers = null
 params.experiment_name = "cellranger_output"
 params.resolution = 0.8
 params.min_genes = 200
@@ -46,24 +47,25 @@ single-cell processing and annotation workflow
 
 ----------------------------------------------
 
-fastq: ${params.fastq}
-verbose: ${params.verbose}
-
 """
 
 
 // Include processes
 
 //include { CreateCountMatrix } from './CreateCountMatrix/CreateCountMatrix.nf'
-include { ScanpySctype } from './ScanpySctype/ScanpySctype.nf'
+include { ProcessCounts } from './ProcessCounts/ProcessCounts.nf'
+include { ManualAnnotation } from './ManualAnnotation/ManualAnnotation.nf'
+include { ScType } from './ScType/ScType.nf'
 include { ScVerse } from './ScVerse/ScVerse.nf'
 
 // Setup workflow
 
 workflow {
 
-    ScanpySctype(params.teste_pbmc)
-    scverse_ch = ScVerse(ScanpySctype.out.dataset)
+    ProcessCounts(params.teste_pbmc)
+    ManualAnnotation(ProcessCounts.out.dataset)
+    ScType(ProcessCounts.out.dataset)
+    scverse_ch = ScVerse(ProcessCounts.out.dataset)
     //countMatrix_ch = CreateCountMatrix(params.fastq, params.reference_transcriptome)
 
 }

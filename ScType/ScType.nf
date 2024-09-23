@@ -1,6 +1,4 @@
-process ScVerse {
-
-    //conda workflow.projectDir/'./ScVerse/scverse.yaml'
+process ScType {
 
     // Set verbosity
 
@@ -13,7 +11,7 @@ process ScVerse {
     }
 
     // Name output directory
-    publishDir "scVerse", mode: 'symlink'
+    publishDir "scType", mode: 'symlink'
 
     // Input: Directory with FASTQ files and a reference transcriptome
     input:
@@ -21,13 +19,16 @@ process ScVerse {
 
     // Consider all files as output
     output:
-    path "*"
+    path "figures"
+    path "sctype_scores.tsv"
 
     script:
     """
-    scverse_annotation.py \
-        --adata $adata \
-        --markers $params.markers
+    sctype_python.py \
+        --clustering $params.clustering \
+        --tissue $params.tissue \
+        --dataset $adata
     """
 
 }
+

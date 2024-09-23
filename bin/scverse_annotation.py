@@ -32,21 +32,21 @@ torch.set_float32_matmul_precision("high")
 save_dir = tempfile.TemporaryDirectory()
 
 adata = sc.read(args.adata)
-celltype_markers = pd.read_csv(args.markers,
-                               index_col=0,
-                               encoding='ISO-8859-1',
-                               on_bad_lines="skip",
-                               engine='python')
 
-adata.obs.index = adata.obs.index.astype("str")
-adata.var.index = adata.var.index.astype("str")
+celltype_markers = pd.read_csv(args.markers,
+                               index_col=0,)
+
 adata.var_names_make_unique()
 adata.obs_names_make_unique()
 
-bdata = adata[:, celltype_markers.index].copy()
+celltype_markers = celltype_markers.loc[:, celltype_markers.columns.isin(adata.var.index)]
 
-lib_size = adata.X.sum(1)
-adata.obs["size_factor"] = lib_size / np.mean(lib_size)
+bdata = adata[:, adata.var_names.isin(celltype_markers.index)]
+
+lib_size = np.asarray(bdata.X.sum(1))
+bdata.obs["size_factor"] = lib_size / np.mean(lib_size)
+
+print(bdata)
 
 scvi.external.CellAssign.setup_anndata(bdata,
                                        size_factor_key="size_factor")
