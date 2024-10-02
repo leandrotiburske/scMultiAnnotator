@@ -1,7 +1,5 @@
 process ScVerse {
 
-    //conda workflow.projectDir/'./ScVerse/scverse.yaml'
-
     // Set verbosity
 
     if (params.verbose == true) {
@@ -11,6 +9,9 @@ process ScVerse {
     else {
         debug false
     }
+
+    //conda workflow.projectDir/'ScVerse/scverse.yaml'
+
 
     // Name output directory
     publishDir "scVerse", mode: 'symlink'

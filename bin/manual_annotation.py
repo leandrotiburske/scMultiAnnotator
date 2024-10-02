@@ -59,7 +59,7 @@ for ct in cells:
     print(marker_genes_in_data[ct])
     sc.pl.umap(
         adata,
-        save = "_markers.png",
+        save = "_{}_markers.png".format(ct),
         color=marker_genes_in_data[ct],
         vmin=0,
         vmax="p99",  # set vmax to the 99th percentile of the gene count instead of the maximum, to prevent outliers from making expression in other cells invisible. Note that this can cause problems for extremely lowly expressed genes.

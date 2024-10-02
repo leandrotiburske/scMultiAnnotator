@@ -8,6 +8,7 @@ import numpy as np
 import scanpy as sc
 import scvi
 import seaborn as sns
+import matplotlib.pyplot as plt
 import torch
 from scvi.external import CellAssign
 
@@ -23,32 +24,32 @@ parser.add_argument('--markers',
 
 args = parser.parse_args()
 
-scvi.settings.seed = 0
+scvi.settings.seed = 123
 print("Last run with scvi-tools version:", scvi.__version__)
 
-sc.set_figure_params(figsize=(6, 6), frameon=False)
-sns.set_theme()
-torch.set_float32_matmul_precision("high")
-save_dir = tempfile.TemporaryDirectory()
+adata = sc.read_h5ad(args.adata)
 
-adata = sc.read(args.adata)
+lib_size = adata.X.sum(axis=1)
+adata = adata[lib_size > 0]
+
+lib_size = np.asarray(adata.X.sum(axis=1))
+adata.obs["size_factor"] = lib_size / np.mean(lib_size)
+
+sc.pl.umap(adata, color=["louvain"], save="_teste1.png")
 
 celltype_markers = pd.read_csv(args.markers,
                                index_col=0,)
 
-adata.var_names_make_unique()
-adata.obs_names_make_unique()
+celltype_markers['Unknown'] = 0
 
-celltype_markers = celltype_markers.loc[:, celltype_markers.columns.isin(adata.var.index)]
+celltype_markers = celltype_markers.loc[celltype_markers.index.isin(adata.var.index), :]
 
-bdata = adata[:, adata.var_names.isin(celltype_markers.index)]
+bdata = adata[:, celltype_markers.index].copy()
 
-lib_size = np.asarray(bdata.X.sum(1))
-bdata.obs["size_factor"] = lib_size / np.mean(lib_size)
-
-print(bdata)
+sc.pl.umap(bdata, color=["louvain"], save="_teste2.png")
 
 scvi.external.CellAssign.setup_anndata(bdata,
+                                       layer="counts",
                                        size_factor_key="size_factor")
 
 model = CellAssign(bdata, 
@@ -60,7 +61,6 @@ predictions = model.predict()
 
 bdata.obs["cellassign_predictions"] = predictions.idxmax(axis=1).values
 
-# celltype is the original CellAssign prediction
 sc.pl.umap(bdata,
            color=["cellassign_predictions"],
            save = "_scverse.png")

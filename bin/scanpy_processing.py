@@ -94,11 +94,15 @@ sc.pl.violin(adata,
                save="_qc.png")
 
 # Filter cells according to provided thresholds (minimim number of genes per cell and cell per genes)
-sc.pp.filter_cells(adata, 
-                   min_genes = args.min_genes)
 
 sc.pp.filter_genes(adata, 
                    min_cells = args.min_cells)
+
+sc.pp.filter_cells(adata, 
+                   min_genes = args.min_genes)
+
+lib_size = adata.X.sum(axis=1)
+adata = adata[lib_size > 0]
 
 adata.layers["counts"] = adata.X.copy()
 

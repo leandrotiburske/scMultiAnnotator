@@ -2,7 +2,7 @@
 
 // Define workflow parameters
 
-params.teste_pbmc = "/home/leandro/Downloads/filtered_gene_bc_matrices/hg19/"
+params.counts = "/home/leandro/Downloads/filtered_gene_bc_matrices/hg19/"
 params.fastq = null
 params.reference_transcriptome = "none"
 params.organism = "human"
@@ -13,7 +13,7 @@ params.resolution = 0.8
 params.min_genes = 200
 params.min_cells = 3
 params.clustering = "leiden"
-params.verbose = true
+params.verbose = false
 params.help = null
 
 // Help message
@@ -62,7 +62,7 @@ include { ScVerse } from './ScVerse/ScVerse.nf'
 
 workflow {
 
-    ProcessCounts(params.teste_pbmc)
+    ProcessCounts(params.counts)
     ManualAnnotation(ProcessCounts.out.dataset)
     ScType(ProcessCounts.out.dataset)
     scverse_ch = ScVerse(ProcessCounts.out.dataset)
