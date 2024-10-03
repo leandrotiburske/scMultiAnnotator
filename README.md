@@ -2,23 +2,24 @@
 
 ## Description
 
-scMultiAnnotator helps performing single-cell annotation according to its [gold standards](). This Nextflow-orchestrated pipeline performs three annotation algorithms with different methodologies between them: 
+scMultiAnnotator facilitates single-cell annotation according to its [gold standards](https://www.nature.com/articles/s41576-023-00586-w). This Nextflow-orchestrated pipeline implements three annotation algorithms, each using different methodologies:
 
-1. Manual annotation: Scanpy plots to help the user manually annotate cell clusters using custom cell markers;
+1. Manual Annotation: Scanpy plots assist the user in manually annotating cell clusters using custom cell markers.
 
-2. Scoring-based method: Python implementation of ScType, which uses its own cell markers database;
+2. Scoring-Based Method: A Python implementation of ScType, which employs its own database of cell markers.
 
-3. Probabilistic model: Annotate cell-types without the need of reference single-cell data by using custom cell markers.
+3. Probabilistic Model: Annotates cell types without the need for reference single-cell data, utilising custom cell markers.
 
-The user can provide either `.fastq` files (in this case, `cellranger count` is performed) or a count matrix as input. 
+Users can provide either `.fastq` files (in which case, `cellranger count` is performed) or a count matrix as input.
 
-## Table of contents
+![scMultiAnnotator DAG](image.png)
 
-## Intallation
 
-1. Nextflow
+## Installation
 
-    First, install Nextflow according to its [documentation](https://www.nextflow.io/docs/latest/install.html):
+- Nextflow
+
+    First, install Nextflow in line with its [documentation](https://www.nextflow.io/docs/latest/install.html):
 
     ```
     # If `java -version` < 11, reinstall Java
@@ -37,21 +38,31 @@ The user can provide either `.fastq` files (in this case, `cellranger count` is 
     nextflow info
     ```
 
-2. Docker
+- Docker
 
-    If Docker is not installed yet, follow the steps on [this tutorial]().
+    If Docker is not installed yet, follow the steps in [this tutorial](https://docs.docker.com/engine/install/ubuntu/).
+
 
 ## Usage
 
 ```
 nextflow run leandrotiburske/scMultiAnnotator \
-                                                --fastq ${PWD}/samples.fastq \
-                                                --reference_transcriptome ${PWD}/reference \
-                                                --organism mouse \
-                                                --tissue "Immune system" \
-                                                --markers ${PWD}/markers.csv
+             --fastq ${PWD}/samples.fastq \
+             --reference_transcriptome ${PWD}/reference \
+             --organism mouse \
+             --tissue "Immune system" \
+             --markers ${PWD}/markers.csv
 ```
 
-## Example
+To see a help message:
+```
+nextflow run leandrotiburske/scMultiAnnotator --help
+```
 
 ## Future improvements
+
+Some new features will be introduced in the future to enhance the functionality of this pipeline, including:
+
+1. Process FASTQ files of multiple samples and perform [integration](https://www.sc-best-practices.org/cellular_structure/integration.html);
+
+2. Include even more annotation methodologies (such as reference-based algorithms).

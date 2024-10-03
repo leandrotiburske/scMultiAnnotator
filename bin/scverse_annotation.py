@@ -35,8 +35,6 @@ adata = adata[lib_size > 0]
 lib_size = np.asarray(adata.X.sum(axis=1))
 adata.obs["size_factor"] = lib_size / np.mean(lib_size)
 
-sc.pl.umap(adata, color=["louvain"], save="_teste1.png")
-
 celltype_markers = pd.read_csv(args.markers,
                                index_col=0,)
 
@@ -45,8 +43,6 @@ celltype_markers['Unknown'] = 0
 celltype_markers = celltype_markers.loc[celltype_markers.index.isin(adata.var.index), :]
 
 bdata = adata[:, celltype_markers.index].copy()
-
-sc.pl.umap(bdata, color=["louvain"], save="_teste2.png")
 
 scvi.external.CellAssign.setup_anndata(bdata,
                                        layer="counts",
@@ -64,3 +60,5 @@ bdata.obs["cellassign_predictions"] = predictions.idxmax(axis=1).values
 sc.pl.umap(bdata,
            color=["cellassign_predictions"],
            save = "_scverse.png")
+
+bdata.write("scverse_annotated.h5ad")

@@ -2,7 +2,7 @@
 
 // Define workflow parameters
 
-params.counts = "/home/leandro/Downloads/filtered_gene_bc_matrices/hg19/"
+params.counts = null
 params.fastq = null
 params.reference_transcriptome = "none"
 params.organism = "human"

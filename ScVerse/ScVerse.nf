@@ -10,9 +10,6 @@ process ScVerse {
         debug false
     }
 
-    //conda workflow.projectDir/'ScVerse/scverse.yaml'
-
-
     // Name output directory
     publishDir "scVerse", mode: 'symlink'
 
