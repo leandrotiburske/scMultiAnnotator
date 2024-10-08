@@ -31,7 +31,15 @@ if (params.help) {
 
     Parameters:
 
-    Options:
+        --counts: Path to the directory with the barcodes, genes and matrix. Default: null
+        --organism: Either `human` or `mouse`. Default: human
+        --tissue: One of ScType's available tissues. Default: null
+        --markers: Path to a csv file with markers according to ScVerse's specifications. Default: null
+        --resolution: Louvain or Leiden's clustering resolution. Default: 0.8
+        --min_genes: Minimum number of genes for cell filtering. Default: 200
+        --min_cells: Minimum number of cells for gene filtering. Default: 3
+        --clustering: Clustering method. Either `leiden` or `louvain`. Default: leiden
+        --verbose: true or false. Default: false
     """
     .stripIdent()
 

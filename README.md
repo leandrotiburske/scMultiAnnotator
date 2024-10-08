@@ -10,8 +10,6 @@ scMultiAnnotator facilitates single-cell annotation according to its [gold stand
 
 3. Probabilistic Model: Annotates cell types without the need for reference single-cell data, utilising custom cell markers.
 
-Users can provide either `.fastq` files (in which case, `cellranger count` is performed) or a count matrix as input.
-
 ![scMultiAnnotator DAG](image.png)
 
 
@@ -47,8 +45,7 @@ Users can provide either `.fastq` files (in which case, `cellranger count` is pe
 
 ```
 nextflow run leandrotiburske/scMultiAnnotator \
-             --fastq ${PWD}/samples.fastq \
-             --reference_transcriptome ${PWD}/reference \
+             --counts ${PWD}/counts \
              --organism mouse \
              --tissue "Immune system" \
              --markers ${PWD}/markers.csv
